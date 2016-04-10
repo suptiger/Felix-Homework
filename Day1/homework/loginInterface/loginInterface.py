@@ -33,12 +33,13 @@ if userName in logData:
 elif userName not in user:
     print("Your accout not registered,Please Contact administrator registered.")
 else:
-    #使用while循环，判断每次用户输入的账号和密码是否正确，在录入错误用户名后，给予提示，请使用正确的用户名
-    for i in range(3):
+    #使用for循环，在2次内进行循环，加上第一次循环，总计3次输入
+    for i in range(2):
         print("your name or your password is error.")
         userName = (input("Please input your registered name again.\n")).strip()
         userPassword = (input("Please input your password again.\n")).strip()
         userinfo = userName + "," + userPassword
+        #每次用户输入的账号和密码是否正确，在录入错误用户名后，给予提示，请使用正确的用户名
         if userName not in user:
             print("Your accout not registered,Please Contact administrator confirm, or try laster right name.")
         elif userinfo in userData:
