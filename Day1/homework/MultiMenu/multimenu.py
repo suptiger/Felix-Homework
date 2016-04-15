@@ -81,4 +81,4 @@ def main():
                     print("请输入合法数字!\n")
 
 if __name__ =='__main__':
-   main()
+    main()
