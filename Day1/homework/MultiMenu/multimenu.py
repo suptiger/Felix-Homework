@@ -48,7 +48,7 @@ def show_city_list():
 
 def main():
     print("欢迎使用三级菜单查询系统！")
-    while 1==1:
+    while True:
         show_province()#打印省份
         input_province = input('请输入序号进行查询,使用exit退出整个查询!\n').strip()
         if input_province == 'exit':
@@ -60,7 +60,7 @@ def main():
                 province_num = i.split('-')[0]
                 if input_province == province_num:
                     print(i.split('-')[1],dic_city[i])
-        while 1==1:
+        while True:
             input_city = input("请输入查询的城市编号\n").strip()
             if input_city == 'quit':
                 break
@@ -71,7 +71,7 @@ def main():
                     district_num = i.split('-')[0] + i.split('-')[1]
                     if input_province + input_city == district_num:
                         print(i.split('-')[2], dic_district[i])
-            while 1==1:
+            while True:
                 input_operate = input("请输入您想操作的内容,使用quit返回上级，使用exit退出程序.\n").strip()
                 if input_operate == 'quit':
                     break
