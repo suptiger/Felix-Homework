@@ -1,5 +1,6 @@
 
 curt_list = []
+result = ['yes','no']
 
 #读取商品清单
 def show_init_list():
@@ -9,16 +10,16 @@ def show_init_list():
 
 # 第一次进入系统时，提示系统欢迎信息
 def show_wellcom():
-    print('Wellcom to Shoping Center')
+    print('Wellcom Felix to Shoping Center')
 
-#打印初始商品清单
+#打印初始商品清单,使用字符串格式话输出时，遇到中文字体，不知道应该如何处理；
 def show_curt_list(init_list):
     print("*-----------------------------------------*")
     print("* 编号 * 品名 * 库存数量 * 单价(￥) * 单位*")
     print("*-----------------------------------------*")
     for i in init_list:
         i_list = i.strip().split(',')
-        print('|   %s   |    %s    |    %s    |    %s    |    %s    |'%(i_list[0].ljust(5),i_list[1].ljust(8),i_list[2].ljust(8),i_list[3].ljust(8),i_list[4].ljust(5)))
+        print('|   %s   |   %s   |   %s   |   %s   |   %s   |'%(i_list[0].ljust(5),i_list[1].ljust(8),i_list[2].ljust(8),i_list[3].ljust(8),i_list[4].ljust(5)))
 
 #定义函数，判断选择的商品编号是否在商品列表中存在，返回布尔值，存在返回False，不存在返回True
 def is_not_exist(curt_list,input_num):
@@ -51,7 +52,7 @@ def now_list(curt_list,input_num,select_num):
     for i in curt_list:
         if i.split(',')[0] == input_num:
             curt_index = curt_list.index(i)
-            curt_list[curt_index] = (input_num,curt_list[curt_index.split(',')[1]],str(int(curt_list[curt_index].split(',')[2])-int(select_num)),curt_list[curt_index].split(',')[3],curt_list[curt_index].split(',')[4])
+            curt_list[curt_index] = input_num+','+curt_list[curt_index].split(',')[1]+','+str(int(curt_list[curt_index].split(',')[2])-int(select_num))+','+curt_list[curt_index].split(',')[3]+','+curt_list[curt_index].split(',')[4]
             return curt_list
 
 #定义函数，传入商品编号，返回用户的购物清单
@@ -62,20 +63,30 @@ def buy_process(curt_list,input_num,select_num):
 
 
 def main():
-    show_wellcom()
-    curt_list = show_init_list()
-    show_curt_list(curt_list)
+    show_wellcom()#显示欢迎信息
+    curt_list = show_init_list()#将初始化商品清单赋值给变量
+    show_curt_list(curt_list)#打印初始化商品清单
     while True:
-        input_num = input('Please input The number what you want to buy!\n ').strip()
-        while is_not_exist(curt_list,input_num):
-            input_num = input('Please input right num for Buy!\n').strip()
+        input_num = input('Please input The number what you want to buy，or input exit exit shopping center!\n').strip().lower()
+        if input_num == 'exit':
+            exit()
+        while is_not_exist(curt_list,input_num):#判断用户录入的商品编号是否存在
+            input_num = input('Please input right num for Buy,or input exit exit shopping center!\n').strip().lower()
+            if  input_num == 'exit':
+                exit()
         a = curt_num(curt_list, input_num)
         select_num = input('%s is you want to buy,Please input many you want to buy!\n' % (a[0])).strip()
-        while is_not_beyond(curt_list,input_num,select_num):
+        while is_not_beyond(curt_list,input_num,select_num):#判断用户录入的购买数量是否合法，是否为正整数且小于库存量
             select_num = input('Many Error,Please input right number!\n').strip()
-        buy_process(curt_list,input_num,select_num)
-        curt_list = now_list(curt_list,input_num,select_num)
-        show_curt_list(curt_list)
+        buy_process(curt_list,input_num,select_num)#返回用户购物清单
+        user_result = input('If you will buy,Please input yes,else,input no!\n').strip().lower()
+        while user_result not in result:
+            user_result = input('Please input right choice,If you will buy,Please input yes,else,input no!\n').strip().lower()
+        if user_result == 'yes':#假如用户选择了购买，则计算出当前的库存量
+            curt_list = now_list(curt_list,input_num,select_num)#计算出当前的库存量清单
+            show_curt_list(curt_list)#打印出库存清单
+        else:#加入用户不进行购买，则显示原始商品清单
+            show_curt_list(curt_list)
 if __name__ == '__main__':
     main()
 
